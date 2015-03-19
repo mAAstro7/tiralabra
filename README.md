@@ -1,3 +1,3 @@
 # tiralabra
 
-Getting started
+Aiheeksi vaihdettu KPS botti jota suurella innolla aletaan rakentamaan
