@@ -1,5 +1,7 @@
 
-package UserInterface;
+package Main;
+
+import UserInterface.UI;
 
 /**
  *
@@ -8,7 +10,7 @@ package UserInterface;
 public class Main {
 
     
-    
+
     public static void main(String[] args) {
         UI kayttoliittyma = new UI();
         kayttoliittyma.run();

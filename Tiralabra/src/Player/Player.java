@@ -33,8 +33,13 @@ public class Player {
         return points;
     }
 
-    public void setPoints(int pisteet) {
-        this.points = pisteet;
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    
+    @Override
+    public String toString() {
+        return this.name + " scores: " + this.points;
     }
  
 }

@@ -11,20 +11,22 @@ import java.util.Random;
  */
  
 public class AI {
-private char[] siirrot;
+private char[] moves;
 
 
 /**
  * Luo uuden AI:n ja littaa siirrot k,p ja s char taulukkoon
+ * tätä ei vielä käytetä
  */
    public AI(){
-       this.siirrot = new char[]{'k', 'p', 's'};
+       this.moves = new char[]{'k', 'p', 's'};
    }
   
  /**
  * Hakee tekoälyn seuraavan siirron
+ * Toimii vielä tällä hetkellä randomina
  */ 
-   public char getSiirto() {
+   public char getMove() {
        Random random = new Random();
        int luku = random.nextInt(100);
        int kivi = 33;
