@@ -5,7 +5,6 @@
  */
 package GameMove;
 
-import Player.Player;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

@@ -11,34 +11,40 @@ import java.util.Random;
  */
  
 public class AI {
-private char[] moves;
-
+    
+private Round[] rounds;
 
 /**
  * Luo uuden AI:n ja littaa siirrot k,p ja s char taulukkoon
  * tätä ei vielä käytetä
  */
    public AI(){
-       this.moves = new char[]{'k', 'p', 's'};
+
    }
+   
+   public void addRound (Round round) {
+   
+   }
+   
+   
   
  /**
  * Hakee tekoälyn seuraavan siirron
  * Toimii vielä tällä hetkellä randomina
+     * @return valittu siirto
  */ 
-   public char getMove() {
+   public String getMove() {
        Random random = new Random();
        int luku = random.nextInt(100);
        int kivi = 33;
        int sakset = kivi+33;
-       int papaeri = sakset+33;
        if (luku>kivi) {
            if (luku > sakset) {
-               return 'p';
+               return "p";
            }
-           return 's';
+           return "s";
        }
-       return 'k';
+       return "k";
    }
     
 }
