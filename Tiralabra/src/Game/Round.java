@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ArtificialIntelligence;
+package Game;
 
 /**
  *
- * @author Jomppa
+ * Luokka yhden kierroksen taltiointii.
  */
 public class Round {
     
@@ -16,7 +16,7 @@ public class Round {
     //pitää sisällään tekoälyn siirron
     private String AIMove;
     //pitää sisällään tiedon kumpi voitti (voitto = AI voittaa)
-    private String whathappend;
+    private String whatHappend;
     
     public Round(){
         
@@ -42,11 +42,16 @@ public class Round {
     }
 
     public String getWhathappend() {
-        return whathappend;
+        return whatHappend;
     }
 
     public void setWhathappend(String whathappend) {
-        this.whathappend = whathappend;
+        this.whatHappend = whathappend;
+    }
+    
+    @Override
+    public String toString() {
+        return "this is ROOOUUUNDDD!!";
     }
 
 }

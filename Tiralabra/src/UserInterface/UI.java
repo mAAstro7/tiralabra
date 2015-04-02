@@ -2,7 +2,7 @@ package UserInterface;
 
 import Player.Player;
 import ArtificialIntelligence.*;
-import GameMove.Inspector;
+import Game.Inspector;
 import java.util.Scanner;
 
 /**
