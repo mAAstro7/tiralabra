@@ -1,4 +1,3 @@
-
 package Main;
 
 import Game.Round;
@@ -11,20 +10,19 @@ import UserInterface.UI;
  */
 public class Main {
 
-    
-
     public static void main(String[] args) {
 //        UI kayttoliittyma = new UI();
 //        kayttoliittyma.run();
         RoundCollector testi = new RoundCollector();
         testi.increaseSize();
+
         Round round = new Round();
         testi.put(round);
         System.out.println(testi.toString());
-                testi.increaseSize();
+        testi.increaseSize();
         Round roundi = new Round();
-                testi.put(roundi);
+        testi.put(roundi);
         System.out.println(testi.toString());
     }
-    
+
 }

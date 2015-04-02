@@ -7,29 +7,53 @@ package Game;
 
 /**
  *
- * Tietorakenne kierroksien taltiointiin,
+ * Tietorakenne kierroksien taltiointiin, kaksisuuntainen linkitetty lista
  */
 public class RoundCollector {
     private Round[] rounds = new Round[0];
 
 
-public void increaseSize() {
-    Round[] newTable = new Round[this.rounds.length+1];
-    this.rounds = newTable;
-    System.out.println(newTable.length);
-}
-
-public void put(Round round) {
+    /**
+ *
+ *  kasvatetaan taulukon kokoa jotta saadaan uusi round olio talletettua
+ *  //kesken
+ */
+   
     
-    this.rounds[0] = round;
+public void increaseSize() {
+        Round[] newTable = new Round[this.rounds.length];
+        System.arraycopy(this.rounds, 0, newTable, 0, this.rounds.length);
+   
+    this.rounds = newTable;
+  
+}
+ /**
+ *
+ *  Lisätään uusi round olio.
+ *  //kesken
+ */
+   
+    /**
+     * Lisätään uusi round olio.//kesken
+     * @param round uusi round olio 
+     */
+    public void put(Round round) {
+    increaseSize();
+        for(int i =0;i<this.rounds.length; i++) {
+        if (this.rounds == null) {
+            this.rounds[i] = round;
+            break;
+        }
+    }
 }
 
-public String toString() {
+    @Override
+    public String toString() {
     String roundtoString = "";
-    for (int i = 0; i<rounds.length; i++) {
-        System.out.println(rounds[i].toString())                    ;
-        roundtoString = roundtoString + "\n" + rounds[i].toString();
-    }
+        for (Round round : rounds) {
+
+            roundtoString = roundtoString + "\n" + round.toString();
+        }
     return roundtoString;
 }
 
