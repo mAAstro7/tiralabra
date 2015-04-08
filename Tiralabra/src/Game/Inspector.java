@@ -19,6 +19,7 @@ public class Inspector {
  * Tarkistaa kömpelösti (atm) kumpi siirroista voittaa.
  * @param p1 player1 siirto
  * @param p2 player2 siirto
+     * @return p1 tai p2, riippuen kumpi voittaa
  */
     public String checkWhoWins(String p1, String p2) {
         if (p1.contains(p2)) {

@@ -9,7 +9,7 @@ package Game;
  *
  * Tietorakenne kierroksien taltiointiin, kaksisuuntainen linkitetty lista
  */
-public class RoundCollector {
+public class RoundList {
     private Round[] rounds = new Round[0];
 
 
