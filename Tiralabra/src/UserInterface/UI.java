@@ -51,11 +51,12 @@ public class UI {
         }
 
         System.out.println(getScores());
-  
+
     }
 
     /**
      * Palauttaa pelaajien toString joka kertoo nimen ja pistemäärän
+     *
      * @return kierroksen to String
      */
     public String getScores() {
@@ -63,18 +64,24 @@ public class UI {
         return player1.toString() + "  " + player2.toString();
     }
 
+     /**
+     * Suorittaa pelikierroksen loppuun
+     * Botti valitsee siirtonsa ja voittava pelaaja saa pisteen
+     * @param move1 Pelaajan siirto
+     */
+    
     public void runRound(String move1) {
 
         String move2 = botti.getMove() + "";
-        String voittaja = inspa.checkWhoWins(move1, move2);
         System.out.println(player1.getName() + " chooses " + move1 + " and " + player2.getName() + " chooses " + move2);
-
-        if (voittaja.contains("p1")) {
-            System.out.println("Winner is " + player1.getName());
-            player1.addPoint();
-        } else if (voittaja.contains("p2")) {
+        if (move1.contains(move2)) {
+            System.out.println("Its a TIEEE!!!1");
+        } else if (inspa.didAIwin(move1, move2)) {
             System.out.println("Winner is " + player2.getName());
             player2.addPoint();
+        } else {
+            System.out.println("Winner is " + player1.getName());
+            player1.addPoint();
         }
 
     }

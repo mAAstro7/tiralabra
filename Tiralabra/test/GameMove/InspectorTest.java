@@ -26,7 +26,7 @@ public class InspectorTest {
      */
     @Test
     public void doInspGetWinner() {
-        assertEquals("p1", inspa.checkWhoWins("k", "s"));
+        assertEquals("p1", inspa.didAIwin("k", "s"));
     }
 
     /**
@@ -34,7 +34,7 @@ public class InspectorTest {
      */
     @Test
     public void doInspGetTie() {
-        assertEquals("t", inspa.checkWhoWins("s", "s"));
+        assertEquals("t", inspa.didAIwin("s", "s"));
     }
 
     /**
@@ -42,6 +42,6 @@ public class InspectorTest {
      */
     @Test
     public void doInspGetLoser() {
-        assertEquals("p2", inspa.checkWhoWins("s", "k"));
+        assertEquals("p2", inspa.didAIwin("s", "k"));
     }
 }
