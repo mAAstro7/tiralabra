@@ -20,14 +20,14 @@ public class Inspector {
      * Tarkistaa kumpi siirroista voittaa.
      *
      * @param p1 player1 siirto
-     * @param p2 player2 siirto
+     * @param AI player2 siirto
      * @return true/false sen perusteella voittiko tekoäly
      */
     public boolean didAIwin(String p1, String AI) {
         if (PaperOverRock(AI, p1)) {
             return true;
         } else if (ScissorsOverPaper(AI, p1)) {
-            return false;
+            return true;
         } else if (RockOverScissors(AI, p1)) {
             return true;
         } else {
@@ -44,7 +44,7 @@ public class Inspector {
      * @return true jos siirto yksi on paperi ja kaksi kivi
      */
     public boolean PaperOverRock(String m1, String m2) {
-        if (m1.contains("r") && m2.contains("p")) {
+        if (m1.contains("p") && m2.contains("k")) {
             return true;
         } else {
             return false;
@@ -76,7 +76,7 @@ public class Inspector {
      *
      */
     public boolean RockOverScissors(String m1, String m2) {
-        if (m1.contains("r") && m2.contains("s")) {
+        if (m1.contains("k") && m2.contains("s")) {
             return true;
         } else {
             return false;

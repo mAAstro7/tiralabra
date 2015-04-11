@@ -3,6 +3,8 @@ package UserInterface;
 import Player.Player;
 import ArtificialIntelligence.*;
 import Game.Inspector;
+import Game.Round;
+import Game.RoundRemember;
 import java.util.Scanner;
 
 /**
@@ -12,13 +14,18 @@ import java.util.Scanner;
  */
 public class UI {
 
-    private AI botti = new AI();
-    private Player player1 = new Player();
-    private Player player2 = new Player();
-    private Inspector inspa = new Inspector();
+    private AI botti;
+    private Player player1;
+    private Player player2;
+    private Inspector inspa;
+    private RoundRemember roundRemember;
 
     public UI() {
-
+        this.botti = new AI();
+        this.player1 = new Player();
+        this.player2 = new Player();
+        this.inspa = new Inspector();
+        this.roundRemember = new RoundRemember();
     }
 
     /**
@@ -64,26 +71,33 @@ public class UI {
         return player1.toString() + "  " + player2.toString();
     }
 
-     /**
-     * Suorittaa pelikierroksen loppuun
-     * Botti valitsee siirtonsa ja voittava pelaaja saa pisteen
+    /**
+     * Suorittaa pelikierroksen loppuun Botti valitsee siirtonsa ja voittava
+     * pelaaja saa pisteen
+     *
      * @param move1 Pelaajan siirto
      */
-    
     public void runRound(String move1) {
 
         String move2 = botti.getMove() + "";
+        boolean didBotWin = inspa.didAIwin(move1, move2);
         System.out.println(player1.getName() + " chooses " + move1 + " and " + player2.getName() + " chooses " + move2);
         if (move1.contains(move2)) {
             System.out.println("Its a TIEEE!!!1");
-        } else if (inspa.didAIwin(move1, move2)) {
+        } else if (didBotWin) {
             System.out.println("Winner is " + player2.getName());
             player2.addPoint();
         } else {
             System.out.println("Winner is " + player1.getName());
             player1.addPoint();
         }
-
+        Round round = new Round(move1, move2, didBotWin);
+        round.setPrev(roundRemember.getLastRound());
+        if (!(roundRemember.getLastRound() == null)) {
+            roundRemember.getLastRound().setNext(round);
+            System.out.println("lisättiin");
+        }
+        roundRemember.setLastRound(round);
     }
 
     /**

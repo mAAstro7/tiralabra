@@ -16,12 +16,22 @@ public class Round {
     //pitää sisällään tekoälyn siirron
     private String AIMove;
     //pitää sisällään tiedon kumpi voitti (voitto = AI voittaa)
-    private String whatHappend;
+    private boolean didAIWin;
 
     //edellinen siirto
     private Round prev;
     //seuraava siirto
     private Round next;
+
+    public Round() {
+
+    }
+
+    public Round(String m1, String m2, boolean didBotWin) {
+        this.player1Move = m1;
+        this.AIMove = m2;
+        this.didAIWin = didBotWin;
+    }
 
     public Round getPrev() {
         return prev;
@@ -37,14 +47,6 @@ public class Round {
 
     public void setNext(Round next) {
         this.next = next;
-    }
-
-    public Round() {
-
-    }
-
-    public Round(String m1, String m2) {
-
     }
 
     public String getPlayer1Moves() {
@@ -63,12 +65,12 @@ public class Round {
         this.AIMove = AIMoves;
     }
 
-    public String getWhathappend() {
-        return whatHappend;
+    public boolean getWhathappend() {
+        return didAIWin;
     }
 
-    public void setWhathappend(String whathappend) {
-        this.whatHappend = whathappend;
+    public void setWhathappend(boolean didaiwin) {
+        this.didAIWin = didaiwin;
     }
 
     //testailuun
