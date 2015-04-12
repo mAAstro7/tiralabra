@@ -8,6 +8,11 @@ package Game;
 /**
  *
  * Tietorakenne kierroksien taltiointiin, kaksisuuntainen linkitetty lista
+ * 
+ * !!!HUOM!!!
+ * tätä tietorakennetta ei käytetä
+ * !!!HUOM!!!
+ * 
  */
 public class RoundList {
     private Round[] rounds = new Round[0];

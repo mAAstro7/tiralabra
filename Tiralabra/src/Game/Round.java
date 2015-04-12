@@ -33,6 +33,7 @@ public class Round {
         this.didAIWin = didBotWin;
     }
 
+    
     public Round getPrev() {
         return prev;
     }
@@ -49,19 +50,19 @@ public class Round {
         this.next = next;
     }
 
-    public String getPlayer1Moves() {
+    public String getPlayer1Move() {
         return player1Move;
     }
 
-    public void setPlayer1Moves(String player1Moves) {
+    public void setPlayer1Move(String player1Moves) {
         this.player1Move = player1Moves;
     }
 
-    public String getAIMoves() {
+    public String getAIMove() {
         return AIMove;
     }
 
-    public void setAIMoves(String AIMoves) {
+    public void setAIMove(String AIMoves) {
         this.AIMove = AIMoves;
     }
 
