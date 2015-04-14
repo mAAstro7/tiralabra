@@ -34,7 +34,7 @@ public class UI {
     public void run() {
         Scanner lukija = new Scanner(System.in);
         createPlayers();
-        boolean moveOn = false;
+        boolean moveOn;
         boolean stop = false;
         //Peli pyörii kunnes kirjoitetaan "stop"
         while (!stop) {
@@ -42,8 +42,11 @@ public class UI {
             System.out.println("Choose your move: k,p,s");
             System.out.println("'stop' stops");
             String siirto1 = lukija.next();
+            //tarkistetaan onko "siirto1" stop
             stop = letsStop(siirto1);
+            //tarkistetaan onko siirto1 legit (k,p,s)
             moveOn = correctMove(siirto1);
+            //jos siirto ei ole stop, tai kps, pyydetään tekemään uusi siirto
             while (!moveOn && !stop) {
                 System.out.println("Choose better, remember: k,p,s");
                 siirto1 = lukija.next();
@@ -62,9 +65,9 @@ public class UI {
     }
 
     /**
-     * Palauttaa pelaajien toString joka kertoo nimen ja pistemäärän
+     * Pisteiden hakuun
      *
-     * @return kierroksen to String
+     * @return Palauttaa pelaajien toString joka kertoo nimen ja pistemäärän
      */
     public String getScores() {
 
@@ -80,6 +83,7 @@ public class UI {
     public void runRound(String move1) {
 
         String move2 = botti.getMove() + "";
+        //haetaan boolean muuttujaan tulos inspector luokalta, voittaako botti
         boolean didBotWin = inspa.didAIwin(move1, move2);
         System.out.println(player1.getName() + " chooses " + move1 + " and " + player2.getName() + " chooses " + move2);
         if (move1.contains(move2)) {
@@ -92,11 +96,25 @@ public class UI {
             player1.addPoint();
         }
         Round round = new Round(move1, move2, didBotWin);
+        createNewRound(round);
+    }
+
+    /**
+     * Luodaan uusi round olio
+     *
+     * @param round uusi round olio
+     */
+    public void createNewRound(Round round) {
+
+        //asetetaan uuden olion prev arvoksi edellinen kierros
         round.setPrev(roundRemember.getLastRound());
+        //jos edellinen on tyhjä ei tehdä mitään
         if (!(roundRemember.getLastRound() == null)) {
+            //asetetaan edellisen round olion next arvoksi uusin round
             roundRemember.getLastRound().setNext(round);
-            System.out.println("lisättiin");
+//            System.out.println("lisättiin");
         }
+        //asetetaan viimeisin kierros roundRememberiin
         roundRemember.setLastRound(round);
     }
 
@@ -116,8 +134,14 @@ public class UI {
         }
     }
 
-    public boolean letsStop(String siirto) {
-        return siirto.contains("stop");
+    /**
+     * Palauttaa true jos käyttäjä on antanut komennon stop
+     *
+     * @param komento pelaajan antanu komento/siirto(stop, k,p,s)
+     * @return true/false
+     */
+    public boolean letsStop(String komento) {
+        return komento.contains("stop");
 
     }
 
