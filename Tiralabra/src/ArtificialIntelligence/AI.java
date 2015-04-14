@@ -13,7 +13,6 @@ import java.util.Random;
  
 public class AI {
     
-private Round[] rounds;
 
 /**
  * Luo uuden AI:n ja littaa siirrot k,p ja s char taulukkoon
@@ -22,11 +21,6 @@ private Round[] rounds;
    public AI(){
 
    }
-   
-   public void addRound (Round round) {
-   
-   }
-   
    
   
  /**

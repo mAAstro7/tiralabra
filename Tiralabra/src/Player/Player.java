@@ -9,7 +9,6 @@ public class Player {
     
     private String name;
     private int points;
-    private String[] moves;
     
 
     public Player() {
