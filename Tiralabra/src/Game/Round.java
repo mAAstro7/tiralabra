@@ -17,11 +17,12 @@ public class Round {
     private String AIMove;
     //pitää sisällään tiedon kumpi voitti (voitto = AI voittaa)
     private boolean didAIWin;
-
+    //pitää sisällään tiedon round olion indexistä
+    private int index;
     //edellinen siirto
-    private Round prev;
+    private Round prev = null;
     //seuraava siirto
-    private Round next;
+    private Round next = null;
 
     public Round() {
 
@@ -70,6 +71,14 @@ public class Round {
         return didAIWin;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+    
     public void setWhathappend(boolean didaiwin) {
         this.didAIWin = didaiwin;
     }

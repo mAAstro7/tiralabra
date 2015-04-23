@@ -96,26 +96,9 @@ public class UI {
             player1.addPoint();
         }
         Round round = new Round(move1, move2, didBotWin);
-        createNewRound(round);
-    }
-
-    /**
-     * Luodaan uusi round olio
-     *
-     * @param round uusi round olio
-     */
-    public void createNewRound(Round round) {
-
-        //asetetaan uuden olion prev arvoksi edellinen kierros
-        round.setPrev(roundRemember.getLastRound());
-        //jos edellinen on tyhjä ei tehdä mitään
-        if (!(roundRemember.getLastRound() == null)) {
-            //asetetaan edellisen round olion next arvoksi uusin round
-            roundRemember.getLastRound().setNext(round);
-//            System.out.println("lisättiin");
-        }
-        //asetetaan viimeisin kierros roundRememberiin
-        roundRemember.setLastRound(round);
+        
+        //lisätään uusin round olio muistiin
+        roundRemember.addRound(round);
     }
 
     /**
