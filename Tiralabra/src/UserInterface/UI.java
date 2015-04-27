@@ -82,7 +82,7 @@ public class UI {
      */
     public void runRound(String move1) {
 
-        String move2 = botti.getMove() + "";
+        String move2 = botti.getMove(roundRemember.getLastRound()) + "";
         //haetaan boolean muuttujaan tulos inspector luokalta, voittaako botti
         boolean didBotWin = inspa.didAIwin(move1, move2);
         System.out.println(player1.getName() + " chooses " + move1 + " and " + player2.getName() + " chooses " + move2);

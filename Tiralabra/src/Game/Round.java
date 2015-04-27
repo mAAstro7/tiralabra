@@ -27,7 +27,7 @@ public class Round {
     public Round() {
 
     }
-
+    // m1, pelaajan siirto, m2 botin siirto
     public Round(String m1, String m2, boolean didBotWin) {
         this.player1Move = m1;
         this.AIMove = m2;
