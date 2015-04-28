@@ -47,6 +47,7 @@ public class RoundRememberTest {
         RR.addRound(round);
         RR.addRound(round2);
         RR.addRound(round3);
+        
         RR.deleteRoundInIndex(1);
         Assert.assertEquals(1, RR.getLastRound().getIndex());
     }
@@ -87,6 +88,37 @@ public class RoundRememberTest {
         RR.addRound(round3);
         Round findedRound = RR.getRoundByIndex(0);
         Assert.assertEquals(round, findedRound);
+    }
+
+    @Test
+    public void isIndexRightafterDelete2() {
+        Round round = new Round("s", "s", false);
+        Round round2 = new Round("k", "k", false);
+        Round round3 = new Round("r", "r", false);
+        RR.addRound(round);
+        RR.addRound(round2);
+        RR.addRound(round3);
+        
+        Round round11 = new Round("s", "s", false);
+        Round round22 = new Round("k", "k", false);
+        Round round33 = new Round("r", "r", false);
+        RR.addRound(round11);
+        RR.addRound(round22);
+        RR.addRound(round33);
+        RR.deleteRoundInIndex(1);
+        
+        Assert.assertEquals(4, RR.getLastRound().getIndex());
+    }
+
+    @Test
+    public void CanIGet_RightLength() {
+        Round round = new Round("s", "s", false);
+        Round round2 = new Round("k", "k", false);
+        Round round3 = new Round("r", "r", false);
+        RR.addRound(round);
+        RR.addRound(round2);
+        RR.addRound(round3);
+        Assert.assertEquals(3, RR.length());
     }
 
 }

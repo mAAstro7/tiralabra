@@ -1,6 +1,7 @@
 package ArtificialIntelligence;
 
 import Game.Round;
+import Game.RoundRemember;
 import java.util.Random;
 
 /**
@@ -20,6 +21,7 @@ public class AI {
     //least used move % of all moves;
     private double lEshareOfMoves;
     private String move;
+    private RoundRemember RR;
 
     /**
      * Luo uuden AI:n ja littaa siirrot k,p ja s char taulukkoon tätä ei vielä
@@ -37,6 +39,7 @@ public class AI {
      */
     public String getMove(Round round) {
         this.round = round;
+
         //tarkistetaan ollaanko pelattu yli kaksi kierrosta
         if (getCount() > 2) {
             //tarkistetaan onko putki alkanut (esim p1 valinnut kahdesti putkeen k)
@@ -83,6 +86,7 @@ public class AI {
 
     /**
      * Tarkistetaan ovatko kolme viimeistä siirtoa olleet samat
+     *
      * @return true/false
      */
     public boolean isThereStreak() {
@@ -145,6 +149,9 @@ public class AI {
         }
     }
 
+    /**
+     * hakee siirron joka häviää vastustajan vähiten käyttämälle siirrolle
+     */
     public void getSafestMove() {
         if (leastUsed.contains("s")) {
             move = "p";
@@ -273,6 +280,10 @@ public class AI {
 
     public String getMove4Test() {
         return this.move;
+    }
+
+    public void setRR(RoundRemember rRemember) {
+        this.RR = rRemember;
     }
 
 }

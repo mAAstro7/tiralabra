@@ -37,6 +37,10 @@ public class RoundRemember {
         setLastRound(round);
     }
 
+    public int length() {
+        return lastRound.getIndex() + 1;
+    }
+
     public Round getLastRound() {
         return lastRound;
     }
@@ -56,25 +60,54 @@ public class RoundRemember {
      * Poistetaan haluttu kierros muuttammalla sen prev ja next olioiden prev ja
      * next osoittimet osoittamaan toisiinsa. Tämän jälkeen korjataan indexien
      * arvot (-1 poistettavaa kierrosta uusimpiin)
+     *
      * @param index poistettava indexi
      */
     public void deleteRoundInIndex(int index) {
 
-        Round deleteRound = this.lastRound;
-        while (index != deleteRound.getIndex()) {
-            deleteRound = deleteRound.getPrev();
-        }
-        Round newNext = deleteRound.getNext();
-        deleteRound.getPrev().setNext(newNext);
-        newNext.setPrev(deleteRound.getPrev());
-        newNext.setIndex(newNext.getIndex() - 1);
+        if (index > 0 && index <= length()-1) {
+            Round deleteRound = this.lastRound;
+            while (index != deleteRound.getIndex()) {
+                deleteRound = deleteRound.getPrev();
+            }
+            Round newNext = deleteRound.getNext();
+            deleteRound.getPrev().setNext(newNext);
+            newNext.setPrev(deleteRound.getPrev());
 
-        while (newNext.getNext() != null) {
-            newNext = newNext.getNext();
-            newNext.setIndex(newNext.getIndex() - 1);
+        } else {
+            Round firsInList = getRoundByIndex(0);
+            Round lastInList = firsInList.getNext();
+            lastInList.setPrev(null);
+
+        }
+        fixIndexAfterDelete(index);
+
+    }
+
+    /**
+     * Korjatan indexit osoittamaan oikein
+     *
+     * @param deletedindex poistettu indexi joka on tällä hetkellä tyhjä
+     */
+    public void fixIndexAfterDelete(int deletedIndex) {
+        int uusiIndexi = 0;
+        for (int i = 0; i < length(); i++) {
+            if (i == deletedIndex) {
+            } else {
+                Round round = getRoundByIndex(i);
+                round.setIndex(uusiIndexi);
+                System.out.println(round.getIndex());
+                uusiIndexi++;
+            }
+
         }
     }
 
+    /**
+     * Palautetaan halutusta indexistä round olio
+     *
+     * @param index palautettava indexi
+     */
     public Round getRoundByIndex(int index) {
         Round round = this.lastRound;
         while (index != round.getIndex()) {

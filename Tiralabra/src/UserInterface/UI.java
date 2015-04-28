@@ -99,6 +99,7 @@ public class UI {
         
         //lisätään uusin round olio muistiin
         roundRemember.addRound(round);
+        botti.setRR(roundRemember);
     }
 
     /**
