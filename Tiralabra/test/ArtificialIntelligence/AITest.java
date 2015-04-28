@@ -34,7 +34,7 @@ public class AITest {
         String move = ai.getMove(round) + "";
         if (move.equals("k") || move.equals("s") || move.equals("p")) {
 
-            assertFalse("".contains(move));
+            assertFalse("I didnt make k, p or s :(","".contains(move));
         } else {
             assertFalse("I didnt make k, p or s :(", move.contains(""));
         }
@@ -42,45 +42,129 @@ public class AITest {
 
     @Test
     public void isMostUsedWorking() {
-        Round round = new Round("k", "s", false);
-        Round round2 = new Round("k", "p", false);
-        Round round3 = new Round("k", "k", false);
-        Round round4 = new Round("k", "p", false);
-        RR.addRound(round);
-        RR.addRound(round2);
-        RR.addRound(round3);
-        RR.addRound(round4);
-        ai.getMove(RR.getLastRound());
-        Assert.assertEquals("k", ai.getMostUsed() );
+
+        for (int i = 0; i < 4; i++) {
+            Round round = new Round("k", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(RR.getLastRound());
+        ai.countMostUsed();
+        Assert.assertEquals("k", ai.getMostUsed());
     }
-    
-        @Test
+
+    @Test
     public void isMostUsedShareOfMovesCorrect() {
-        Round round = new Round("k", "s", false);
-        Round round2 = new Round("k", "p", false);
-        Round round3 = new Round("k", "k", false);
+        for (int i = 0; i < 3; i++) {
+            Round round = new Round("k", "s", false);
+            RR.addRound(round);
+        }
         Round round4 = new Round("s", "p", false);
-        RR.addRound(round);
-        RR.addRound(round2);
-        RR.addRound(round3);
         RR.addRound(round4);
-        ai.getMove(RR.getLastRound());
-        Assert.assertEquals(75, (int)ai.getmUshareOfMoves());
+        ai.setRound(RR.getLastRound());
+        ai.countMostUsed();
+        Assert.assertEquals(75, (int) ai.getmUshareOfMoves());
     }
-    
-            @Test
-    public void iShouldGetP() {
+
+    @Test
+    public void isCounterMoveWorking() {
+        for (int i = 0; i < 6; i++) {
+            Round round = new Round("k", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(RR.getLastRound());
+        ai.countMostUsed();
+        ai.getCounterMove();
+        Assert.assertEquals("p", ai.getMove4Test());
+    }
+
+    @Test
+    public void isLeastUsedWorking() {
         Round round = new Round("k", "s", false);
-        Round round2 = new Round("k", "p", false);
-        Round round3 = new Round("k", "k", false);
-        Round round4 = new Round("k", "p", false);
-        Round round5 = new Round("k", "p", false);
         RR.addRound(round);
-        RR.addRound(round2);
-        RR.addRound(round3);
-        RR.addRound(round4);
-        RR.addRound(round5);
-        ai.getMove(RR.getLastRound());
-        Assert.assertEquals("p", ai.getMove(RR.getLastRound()));
+        for (int i = 0; i < 6; i++) {
+            round = new Round("s", "s", false);
+            RR.addRound(round);
+        }
+        for (int i = 0; i < 3; i++) {
+            round = new Round("p", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(round);
+        ai.countLeastUsed();
+        Assert.assertEquals("k", ai.getLeastUsed());
     }
+
+    @Test
+    public void isShareOfLeastUsedWorking() {
+        Round round = new Round("k", "s", false);
+        RR.addRound(round);
+        for (int i = 0; i < 6; i++) {
+            round = new Round("s", "s", false);
+            RR.addRound(round);
+        }
+        for (int i = 0; i < 3; i++) {
+            round = new Round("p", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(round);
+        ai.countLeastUsed();
+        Assert.assertEquals(10, (int) ai.getlEshareOfMoves());
+    }
+
+    @Test
+    public void isSafestMoveWorking() {
+        for (int i = 0; i < 6; i++) {
+            Round round = new Round("k", "s", false);
+            RR.addRound(round);
+        }
+        for (int i = 0; i < 3; i++) {
+            Round round = new Round("s", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(RR.getLastRound());
+        ai.countLeastUsed();
+        ai.getSafestMove();
+        Assert.assertEquals("k", ai.getMove4Test());
+    }
+
+    @Test
+    public void isThereStreakWorking() {
+        Round round = null;
+        for (int i = 0; i < 6; i++) {
+            round = new Round("s", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(round);
+        Assert.assertEquals(true, ai.isThereStreak());
+    }
+
+    @Test
+    public void isThereStreakWorking2() {
+        Round round = null;
+        for (int i = 0; i < 3; i++) {
+            round = new Round("s", "s", false);
+            RR.addRound(round);
+        }
+        round = new Round("p", "s", false);
+        RR.addRound(round);
+        round = new Round("s", "s", false);
+        RR.addRound(round);
+        ai.setRound(round);
+        Assert.assertEquals(false, ai.isThereStreak());
+    }
+
+    @Test
+    public void doAINoticeStreak() {
+        Round round = null;
+        for (int i = 0; i < 6; i++) {
+            round = new Round("s", "s", false);
+            RR.addRound(round);
+        }
+        for (int i = 0; i < 3; i++) {
+            round = new Round("p", "s", false);
+            RR.addRound(round);
+        }
+        Assert.assertEquals("s", ai.getMove(RR.getLastRound()));
+    }
+
 }
