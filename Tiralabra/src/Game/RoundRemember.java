@@ -56,8 +56,7 @@ public class RoundRemember {
      * Poistetaan haluttu kierros muuttammalla sen prev ja next olioiden prev ja
      * next osoittimet osoittamaan toisiinsa. Tämän jälkeen korjataan indexien
      * arvot (-1 poistettavaa kierrosta uusimpiin)
-     *
-     * @param poistettava indexi
+     * @param index poistettava indexi
      */
     public void deleteRoundInIndex(int index) {
 

@@ -37,49 +37,84 @@ public class AI {
      */
     public String getMove(Round round) {
         this.round = round;
+        //tarkistetaan ollaanko pelattu yli kaksi kierrosta
         if (getCount() > 2) {
+            //tarkistetaan onko putki alkanut (esim p1 valinnut kahdesti putkeen k)
             if (isThereStreak()) {
-                mostUsed = round.getPlayer1Move();
-                getCounterMove();
+                //jos putki on kestäny kaksi siirtoa, valitaan 
+                //turvallisen ja voittavan siirron väliltä randomina    
+                if (countStreak() < 3) {
+                    Random random = new Random();
+                    int luku = random.nextInt(100);
+                    System.out.println(luku);
+                    if (luku > 40) {
+                        mostUsed = round.getPlayer1Move();
+                        getCounterMove();
+                    } else {
+                        move = round.getPlayer1Move();
+                    }
+                    //jos putki on yli kahden mittainen valitaan aina voittava siirto
+                } else {
+                    mostUsed = round.getPlayer1Move();
+                    getCounterMove();
+                }
+
             } else {
                 countMostUsed();
                 //jos vihu on käyttänyt yli 65% samaa siirtoa, pelataan tätä vastaan
-                if (mUshareOfMoves > 65) {
+                if (mUshareOfMoves > 60) {
                     getCounterMove();
                 } else {
                     countLeastUsed();
-                    if (lEshareOfMoves < 25) {
+                    if (lEshareOfMoves < 20) {
                         getSafestMove();
                     } else {
-                        getRadnom();
+                        getRandom();
                     }
                 }
             }
         } else {
 
             //jos on pelattu alle neljä kierrosta, palautetaan siirto painotettuna randomina
-            getRadnom();
+            getRandom();
         }
         return move;
     }
 
     /**
      * Tarkistetaan ovatko kolme viimeistä siirtoa olleet samat
+     * @return true/false
      */
     public boolean isThereStreak() {
         Round helpRound = this.round;
-        String move = helpRound.getPlayer1Move();
-            helpRound = helpRound.getPrev();
-            if (!move.contains(helpRound.getPlayer1Move())) {
-                return false;
+        String helpMove = helpRound.getPlayer1Move();
+        helpRound = helpRound.getPrev();
+        if (!helpMove.contains(helpRound.getPlayer1Move())) {
+            return false;
         }
         return true;
+    }
+
+    public int countStreak() {
+        Round helpRound = this.round;
+        int streak = 0;
+        String move = helpRound.getPlayer1Move();
+        while (move.contains(helpRound.getPlayer1Move())) {
+            streak++;
+            if (helpRound.getPrev() != null) {
+                helpRound = helpRound.getPrev();
+            } else {
+                helpRound.setPlayer1Move("stop");
+            }
+
+        }
+        return streak;
     }
 
     /**
      * Palautetaan painotettu random (kivellä voittaa aina)
      */
-    public void getRadnom() {
+    public void getRandom() {
         Random random = new Random();
         int luku = random.nextInt(100);
         int kivi = 40;

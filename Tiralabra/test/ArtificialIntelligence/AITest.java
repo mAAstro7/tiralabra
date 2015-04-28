@@ -34,7 +34,7 @@ public class AITest {
         String move = ai.getMove(round) + "";
         if (move.equals("k") || move.equals("s") || move.equals("p")) {
 
-            assertFalse("I didnt make k, p or s :(","".contains(move));
+            assertFalse("I didnt make k, p or s :(", "".contains(move));
         } else {
             assertFalse("I didnt make k, p or s :(", move.contains(""));
         }
@@ -165,6 +165,21 @@ public class AITest {
             RR.addRound(round);
         }
         Assert.assertEquals("s", ai.getMove(RR.getLastRound()));
+    }
+
+    @Test
+    public void countStreakisWorking() {
+        Round round = null;
+
+        round = new Round("s", "s", false);
+        RR.addRound(round);
+
+        for (int i = 0; i < 3; i++) {
+            round = new Round("p", "s", false);
+            RR.addRound(round);
+        }
+        ai.setRound(RR.getLastRound());
+        Assert.assertEquals(3, ai.countStreak());
     }
 
 }
