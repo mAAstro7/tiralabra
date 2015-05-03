@@ -87,7 +87,7 @@ public class RoundRemember {
     /**
      * Korjatan indexit osoittamaan oikein
      *
-     * @param deletedindex poistettu indexi joka on tällä hetkellä tyhjä
+     * @param deletedIndex poistettu indexi joka on tällä hetkellä tyhjä
      */
     public void fixIndexAfterDelete(int deletedIndex) {
         int uusiIndexi = 0;
@@ -96,7 +96,6 @@ public class RoundRemember {
             } else {
                 Round round = getRoundByIndex(i);
                 round.setIndex(uusiIndexi);
-                System.out.println(round.getIndex());
                 uusiIndexi++;
             }
 

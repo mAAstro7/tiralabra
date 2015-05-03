@@ -22,13 +22,17 @@ public class AI {
     private double lEshareOfMoves;
     private String move;
     private RoundRemember RR;
+    private StreakCalculator SC;
+    private boolean lastRoundHadStreak;
+    private int streakCount;
 
     /**
      * Luo uuden AI:n ja littaa siirrot k,p ja s char taulukkoon tätä ei vielä
      * käytetä
      */
     public AI() {
-
+        SC = new StreakCalculator();
+        RR = new RoundRemember();
     }
 
     /**
@@ -42,24 +46,49 @@ public class AI {
 
         //tarkistetaan ollaanko pelattu yli kaksi kierrosta
         if (getCount() > 2) {
+            //tarkistetaan oliko viime kierroksella putki
+            if (lastRoundHadStreak) {
+                //jos oli tarkistetaan jatkuiko putki, jos ei jatkunut kasvatetaan laskuria
+                if (!isThereStreak()) {
+                    if (streakCount == 4) {
+                        SC.increaseFourCount();
+                    } else if (streakCount == 3) {
+                        SC.increaseTrebleCount();
+                    } else if (streakCount == 2) {
+                        SC.increaseDoubleCount();
+                    }
+                }
+
+            }
             //tarkistetaan onko putki alkanut (esim p1 valinnut kahdesti putkeen k)
-            if (isThereStreak()) {
+            lastRoundHadStreak = isThereStreak();
+            if (lastRoundHadStreak) {
                 //jos putki on kestäny kaksi siirtoa, valitaan 
-                //turvallisen ja voittavan siirron väliltä randomina    
-                if (countStreak() < 3) {
-                    Random random = new Random();
-                    int luku = random.nextInt(100);
-                    System.out.println(luku);
-                    if (luku > 40) {
-                        mostUsed = round.getPlayer1Move();
+                //turvallisen ja voittavan siirron väliltä randomina   
+                streakCount = countStreak();
+                if (streakCount < 3) {
+                    if (SC.getAfterTwo() > 50) {
                         getCounterMove();
                     } else {
-                        move = round.getPlayer1Move();
+                        Random random = new Random();
+                        int luku = random.nextInt(100);
+                        System.out.println(luku);
+                        if (luku > 75) {
+                            mostUsed = round.getPlayer1Move();
+                            getCounterMove();
+                        } else {
+                            move = round.getPlayer1Move();
+                        }
                     }
                     //jos putki on yli kahden mittainen valitaan aina voittava siirto
                 } else {
                     mostUsed = round.getPlayer1Move();
-                    getCounterMove();
+                    double prob = SC.getProbForSameNext(streakCount);
+                    if (prob > 55) {
+                        getCounterMove();
+                    } else {
+                        getSafestMove();
+                    }
                 }
 
             } else {
@@ -102,8 +131,8 @@ public class AI {
     public int countStreak() {
         Round helpRound = this.round;
         int streak = 0;
-        String move = helpRound.getPlayer1Move();
-        while (move.contains(helpRound.getPlayer1Move())) {
+        String helpMove = helpRound.getPlayer1Move();
+        while (helpMove.contains(helpRound.getPlayer1Move())) {
             streak++;
             if (helpRound.getPrev() != null) {
                 helpRound = helpRound.getPrev();
@@ -121,9 +150,8 @@ public class AI {
     public void getRandom() {
         Random random = new Random();
         int luku = random.nextInt(100);
-        int kivi = 40;
-        int sakset = kivi + 35;
-        System.out.println(luku);
+        int kivi = 45;
+        int sakset = kivi + 30;
         if (luku > kivi) {
             if (luku > sakset) {
                 move = "p";

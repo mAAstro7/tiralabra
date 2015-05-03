@@ -81,18 +81,19 @@ public class UI {
      * @param move1 Pelaajan siirto
      */
     public void runRound(String move1) {
-
         String move2 = botti.getMove(roundRemember.getLastRound()) + "";
         //haetaan boolean muuttujaan tulos inspector luokalta, voittaako botti
         boolean didBotWin = inspa.didAIwin(move1, move2);
         System.out.println(player1.getName() + " chooses " + move1 + " and " + player2.getName() + " chooses " + move2);
         if (move1.contains(move2)) {
-            System.out.println("Its a TIEEE!!!1");
+            System.out.println("Its a tie");
         } else if (didBotWin) {
             System.out.println("Winner is " + player2.getName());
+            System.out.println("");
             player2.addPoint();
         } else {
             System.out.println("Winner is " + player1.getName());
+            System.out.println("");
             player1.addPoint();
         }
         Round round = new Round(move1, move2, didBotWin);
