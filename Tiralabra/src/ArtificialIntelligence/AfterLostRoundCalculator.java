@@ -16,8 +16,9 @@ import Game.Round;
 public class AfterLostRoundCalculator {
 
     private Round lastRound;
-    private int changed = 0;
+    private int change = 1;
     private int didntchange = 1;
+    
     public AfterLostRoundCalculator() {
         lastRound = null;
     }
@@ -33,12 +34,15 @@ public class AfterLostRoundCalculator {
             lastRound = round;
         } else {
             if (lastRound.getWhathappend()) {
+                System.out.println("tännevaaa");
                 if (lastRound.getPlayer1Move().contains(round.getPlayer1Move())) {
                     didntchange++;
+                    System.out.println("tännasdasdsadsevaaa");
                 } else {
-                    changed++;
+                    change++;
                 }
             }
+
             lastRound = round;
         }
     }
@@ -46,12 +50,20 @@ public class AfterLostRoundCalculator {
     /**
      * Palautetaan todennäköisyys sille että pelaaja vaihtaa siirtoa hävityn
      * kierroksen jälkeen
+     * @return probofchance todennäköisyys vaihdolle
      */
-    public double changeOfChange() {
-        return changed / (changed + didntchange);
+    public double chanceOfChange() {
+        double probofchange = ((double)change / (change + didntchange)) *100;
+        System.out.println(probofchange);
+        return probofchange;
     }
     
     public boolean didP1LostLastRound() {
-        return lastRound.getWhathappend();
+        if(lastRound != null) {
+            return lastRound.getWhathappend();
+        } else {
+            return false;
+        }
+        
     }
 }

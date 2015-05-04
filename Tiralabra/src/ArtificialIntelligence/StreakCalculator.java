@@ -106,7 +106,7 @@ public class StreakCalculator {
         if (afterTwo == 0) {
             return 0;
         } else {
-            return afterTwo / countDoubles;
+            return afterTwo / countDoubles *100;
         }
 
     }
@@ -115,7 +115,7 @@ public class StreakCalculator {
         if (afterThree == 0) {
             return 0;
         } else {
-            return afterThree / countTrebles;
+            return afterThree / countTrebles *100;
         }
 
     }
@@ -124,7 +124,7 @@ public class StreakCalculator {
         if (afterFour == 0) {
             return 0;
         } else {
-            return afterFour / countFour;
+            return afterFour / countFour *100;
         }
 
     }

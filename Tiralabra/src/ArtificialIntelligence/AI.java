@@ -48,7 +48,7 @@ public class AI {
         ALRC.update(round);
 
         if (ALRC.didP1LostLastRound()) {
-            if (ALRC.changeOfChange() > 74) {
+            if (ALRC.chanceOfChange() > 74) {
                 leastUsed = round.getPlayer1Move();
                 getSafestMove();
             }
