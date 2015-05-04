@@ -25,6 +25,7 @@ public class AI {
     private StreakCalculator SC;
     private boolean lastRoundHadStreak;
     private int streakCount;
+    private AfterLostRoundCalculator ALRC = new AfterLostRoundCalculator();
 
     /**
      * Luo uuden AI:n ja littaa siirrot k,p ja s char taulukkoon tätä ei vielä
@@ -33,6 +34,7 @@ public class AI {
     public AI() {
         SC = new StreakCalculator();
         RR = new RoundRemember();
+        ALRC = new AfterLostRoundCalculator();
     }
 
     /**
@@ -43,72 +45,80 @@ public class AI {
      */
     public String getMove(Round round) {
         this.round = round;
+        ALRC.update(round);
 
-        //tarkistetaan ollaanko pelattu yli kaksi kierrosta
-        if (getCount() > 2) {
-            //tarkistetaan oliko viime kierroksella putki
-            if (lastRoundHadStreak) {
-                //jos oli tarkistetaan jatkuiko putki, jos ei jatkunut kasvatetaan laskuria
-                if (!isThereStreak()) {
-                    if (streakCount == 4) {
-                        SC.increaseFourCount();
-                    } else if (streakCount == 3) {
-                        SC.increaseTrebleCount();
-                    } else if (streakCount == 2) {
-                        SC.increaseDoubleCount();
-                    }
-                }
-
-            }
-            //tarkistetaan onko putki alkanut (esim p1 valinnut kahdesti putkeen k)
-            lastRoundHadStreak = isThereStreak();
-            if (lastRoundHadStreak) {
-                //jos putki on kestäny kaksi siirtoa, valitaan 
-                //turvallisen ja voittavan siirron väliltä randomina   
-                streakCount = countStreak();
-                if (streakCount < 3) {
-                    if (SC.getAfterTwo() > 50) {
-                        getCounterMove();
-                    } else {
-                        Random random = new Random();
-                        int luku = random.nextInt(100);
-                        System.out.println(luku);
-                        if (luku > 75) {
-                            mostUsed = round.getPlayer1Move();
-                            getCounterMove();
-                        } else {
-                            move = round.getPlayer1Move();
-                        }
-                    }
-                    //jos putki on yli kahden mittainen valitaan aina voittava siirto
-                } else {
-                    mostUsed = round.getPlayer1Move();
-                    double prob = SC.getProbForSameNext(streakCount);
-                    if (prob > 55) {
-                        getCounterMove();
-                    } else {
-                        getSafestMove();
-                    }
-                }
-
-            } else {
-                countMostUsed();
-                //jos vihu on käyttänyt yli 65% samaa siirtoa, pelataan tätä vastaan
-                if (mUshareOfMoves > 60) {
-                    getCounterMove();
-                } else {
-                    countLeastUsed();
-                    if (lEshareOfMoves < 20) {
-                        getSafestMove();
-                    } else {
-                        getRandom();
-                    }
-                }
+        if (ALRC.didP1LostLastRound()) {
+            if (ALRC.changeOfChange() > 74) {
+                leastUsed = round.getPlayer1Move();
+                getSafestMove();
             }
         } else {
+            //tarkistetaan ollaanko pelattu yli kaksi kierrosta
+            if (getCount() > 2) {
+                //tarkistetaan oliko viime kierroksella putki
+                if (lastRoundHadStreak) {
+                    //jos oli tarkistetaan jatkuiko putki, jos ei jatkunut kasvatetaan laskuria
+                    if (!isThereStreak()) {
+                        if (streakCount == 4) {
+                            SC.increaseFourCount();
+                        } else if (streakCount == 3) {
+                            SC.increaseTrebleCount();
+                        } else if (streakCount == 2) {
+                            SC.increaseDoubleCount();
+                        }
+                    }
 
-            //jos on pelattu alle neljä kierrosta, palautetaan siirto painotettuna randomina
-            getRandom();
+                }
+                //tarkistetaan onko putki alkanut (esim p1 valinnut kahdesti putkeen k)
+                lastRoundHadStreak = isThereStreak();
+                if (lastRoundHadStreak) {
+                //jos putki on kestäny kaksi siirtoa, valitaan 
+                    //turvallisen ja voittavan siirron väliltä randomina   
+                    streakCount = countStreak();
+                    if (streakCount < 3) {
+                        if (SC.getAfterTwo() > 50) {
+                            getCounterMove();
+                        } else {
+                            Random random = new Random();
+                            int luku = random.nextInt(100);
+                            System.out.println(luku);
+                            if (luku > 75) {
+                                mostUsed = round.getPlayer1Move();
+                                getCounterMove();
+                            } else {
+                                move = round.getPlayer1Move();
+                            }
+                        }
+                        //jos putki on yli kahden mittainen valitaan aina voittava siirto
+                    } else {
+                        mostUsed = round.getPlayer1Move();
+                        double prob = SC.getProbForSameNext(streakCount);
+                        if (prob > 55) {
+                            getCounterMove();
+                        } else {
+                            getSafestMove();
+                        }
+                    }
+
+                } else {
+                    countMostUsed();
+                    //jos vihu on käyttänyt yli 65% samaa siirtoa, pelataan tätä vastaan
+                    if (mUshareOfMoves > 60) {
+                        getCounterMove();
+                    } else {
+                        countLeastUsed();
+                        if (lEshareOfMoves < 20) {
+                            getSafestMove();
+                        } else {
+                            getRandom();
+                        }
+                    }
+                }
+            } else {
+
+                //jos on pelattu alle neljä kierrosta, palautetaan siirto painotettuna randomina
+                getRandom();
+            }
         }
         return move;
     }
