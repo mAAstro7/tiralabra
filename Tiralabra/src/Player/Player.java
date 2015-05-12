@@ -2,8 +2,7 @@
 package Player;
 
 /**
- * Luokka pelaajan luontiin
- * @author joonatan
+ * Luokka pelaajan luontiin, normaalist setterit ja getterit
  */
 public class Player {
     

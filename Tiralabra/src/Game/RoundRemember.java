@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Game;
 
 /**
  *
- * Tietorakenne kierroksien taltiointiin, kaksisuuntainen linkitetty lista Tämä
- * luokka muistaa edellisen kierroksen ja on vaihtoehtoinen tapa toteuttaa
- * linkitetty lista ilman taulukkoa
+ * Tietorakenne kierroksien taltiointiin, kaksisuuntainen linkitetty lista. Tämä
+ * luokka auttaa Round olioita muitamaan next ja prev oliot sekä hoitaa
+ * "lisäämisen", poistamisen ja indexöinnin
  */
 public class RoundRemember {
 
@@ -22,6 +17,10 @@ public class RoundRemember {
         this.nextIndex = 0;
     }
 
+    /**
+     * metodi lisää uuden olion listaan ja hoitaa tarvittavat linkitykset
+     * @param round uusi round olio
+     */
     public void addRound(Round round) {
 
         //asetetaan uuden olion prev arvoksi edellinen kierros
@@ -37,6 +36,9 @@ public class RoundRemember {
         setLastRound(round);
     }
 
+     /**
+     * @return listan pituus
+     */
     public int length() {
         return lastRound.getIndex() + 1;
     }
@@ -65,7 +67,7 @@ public class RoundRemember {
      */
     public void deleteRoundInIndex(int index) {
 
-        if (index > 0 && index <= length()-1) {
+        if (index > 0 && index <= length() - 1) {
             Round deleteRound = this.lastRound;
             while (index != deleteRound.getIndex()) {
                 deleteRound = deleteRound.getPrev();
@@ -106,6 +108,7 @@ public class RoundRemember {
      * Palautetaan halutusta indexistä round olio
      *
      * @param index palautettava indexi
+     * @return haettava round olio
      */
     public Round getRoundByIndex(int index) {
         Round round = this.lastRound;

@@ -74,57 +74,90 @@ public class StreakCalculator {
         }
     }
 
+    /**
+     * Kasvattaa todennäköisyyttä että pelaaja ei vaihda siirtoa kahden hävityn
+     * jälkeen
+     */
     public void increaseDouble() {
         this.countDoubles++;
         this.afterTwo++;
     }
 
+    /**
+     * Kasvattaa todennäköisyyttä että pelaaja ei vaihda siirtoa kolmen hävityn
+     * jälkeen
+     */
     public void increaseTreble() {
         this.countTrebles++;
         this.afterThree++;
     }
 
+    /**
+     * Kasvattaa todennäköisyyttä että pelaaja ei vaihda siirtoa neljän hävityn
+     * jälkeen
+     */
     public void increaseFour() {
         this.countFour++;
         this.afterFour++;
     }
 
+    /**
+     * Kasvattaa todennäköisyyttä että pelaaja vaihtaa siirtoa kahden hävityn
+     * jälkeen
+     */
     public void increaseDoubleCount() {
         this.countDoubles++;
 
     }
 
+    /**
+     * Kasvattaa todennäköisyyttä että pelaaja vaihtaa siirtoa kolmen hävityn
+     * jälkeen
+     */
     public void increaseTrebleCount() {
         this.countTrebles++;
     }
 
+    /**
+     * Kasvattaa todennäköisyyttä että pelaaja vaihtaa siirtoa neljän hävityn
+     * jälkeen
+     */
     public void increaseFourCount() {
         this.countFour++;
     }
 
+    /**
+     * @return todennäköisyys vaihdolle kahden hävityn jälkeen
+     */
     public double getAfterTwo() {
         if (afterTwo == 0) {
             return 0;
         } else {
-            return afterTwo / countDoubles *100;
+            return afterTwo / countDoubles * 100;
         }
 
     }
 
+    /**
+     * @return todennäköisyys vaihdolle kolmen hävityn jälkeen
+     */
     public double getAfterThree() {
         if (afterThree == 0) {
             return 0;
         } else {
-            return afterThree / countTrebles *100;
+            return afterThree / countTrebles * 100;
         }
 
     }
 
+    /**
+     * @return todennäköisyys vaihdolle neljän hävityn jälkeen
+     */
     public double getAfterFour() {
         if (afterFour == 0) {
             return 0;
         } else {
-            return afterFour / countFour *100;
+            return afterFour / countFour * 100;
         }
 
     }

@@ -18,7 +18,7 @@ public class AfterLostRoundCalculator {
     private Round lastRound;
     private int change = 1;
     private int didntchange = 1;
-    
+
     public AfterLostRoundCalculator() {
         lastRound = null;
     }
@@ -34,10 +34,8 @@ public class AfterLostRoundCalculator {
             lastRound = round;
         } else {
             if (lastRound.getWhathappend()) {
-                System.out.println("tännevaaa");
                 if (lastRound.getPlayer1Move().contains(round.getPlayer1Move())) {
                     didntchange++;
-                    System.out.println("tännasdasdsadsevaaa");
                 } else {
                     change++;
                 }
@@ -50,20 +48,25 @@ public class AfterLostRoundCalculator {
     /**
      * Palautetaan todennäköisyys sille että pelaaja vaihtaa siirtoa hävityn
      * kierroksen jälkeen
+     *
      * @return probofchance todennäköisyys vaihdolle
      */
     public double chanceOfChange() {
-        double probofchange = ((double)change / (change + didntchange)) *100;
-        System.out.println(probofchange);
+        double probofchange = ((double) change / (change + didntchange)) * 100;
         return probofchange;
     }
-    
+
+    /**
+     * Palautetaan hävisikö p1 edellisen kierroksen
+     *
+     * @return true/false
+     */
     public boolean didP1LostLastRound() {
-        if(lastRound != null) {
+        if (lastRound != null) {
             return lastRound.getWhathappend();
         } else {
             return false;
         }
-        
+
     }
 }

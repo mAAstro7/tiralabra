@@ -138,6 +138,9 @@ public class AI {
         return true;
     }
 
+     /**
+     * @return siirtojen "putken" lkm. esim k,k...k,k
+     */
     public int countStreak() {
         Round helpRound = this.round;
         int streak = 0;
@@ -160,6 +163,7 @@ public class AI {
     public void getRandom() {
         Random random = new Random();
         int luku = random.nextInt(100);
+        //painotettu random. (kivi 45%) (sakset 30%) (paperi 25%)
         int kivi = 45;
         int sakset = kivi + 30;
         if (luku > kivi) {

@@ -33,4 +33,13 @@ public class ALRCTest {
         }
         Assert.assertEquals(20, (int)ALRC.chanceOfChange());
     }
+    
+        @Test
+    public void isDidp1qWonworking() {
+ 
+            Round round = new Round("k", "s", true);
+            ALRC.update(round);
+        
+        Assert.assertEquals(true, ALRC.didP1LostLastRound());
+    }
 }
