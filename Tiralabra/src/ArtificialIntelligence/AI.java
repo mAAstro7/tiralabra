@@ -46,7 +46,7 @@ public class AI {
     public String getMove(Round round) {
         this.round = round;
         ALRC.update(round);
-
+        //tarkistetaan aluksi hävisikö pelaaja viimekierroksen
         if (ALRC.didP1LostLastRound()) {
             if (ALRC.chanceOfChange() > 74) {
                 leastUsed = round.getPlayer1Move();
@@ -58,69 +58,104 @@ public class AI {
                 //tarkistetaan oliko viime kierroksella putki
                 if (lastRoundHadStreak) {
                     //jos oli tarkistetaan jatkuiko putki, jos ei jatkunut kasvatetaan laskuria
-                    if (!isThereStreak()) {
-                        if (streakCount == 4) {
-                            SC.increaseFourCount();
-                        } else if (streakCount == 3) {
-                            SC.increaseTrebleCount();
-                        } else if (streakCount == 2) {
-                            SC.increaseDoubleCount();
-                        }
-                    }
-
+                    streakHappend();
                 }
                 //tarkistetaan onko putki alkanut (esim p1 valinnut kahdesti putkeen k)
                 lastRoundHadStreak = isThereStreak();
                 if (lastRoundHadStreak) {
-                //jos putki on kestäny kaksi siirtoa, valitaan 
+                    //jos putki on kestäny kaksi siirtoa, valitaan 
                     //turvallisen ja voittavan siirron väliltä randomina   
                     streakCount = countStreak();
                     if (streakCount < 3) {
-                        if (SC.getAfterTwo() > 50) {
-                            getCounterMove();
-                        } else {
-                            Random random = new Random();
-                            int luku = random.nextInt(100);
-                            System.out.println(luku);
-                            if (luku > 75) {
-                                mostUsed = round.getPlayer1Move();
-                                getCounterMove();
-                            } else {
-                                move = round.getPlayer1Move();
-                            }
-                        }
+                        getStreaklessMove();
                         //jos putki on yli kahden mittainen valitaan aina voittava siirto
                     } else {
-                        mostUsed = round.getPlayer1Move();
-                        double prob = SC.getProbForSameNext(streakCount);
-                        if (prob > 55) {
-                            getCounterMove();
-                        } else {
-                            getSafestMove();
-                        }
+                        getMoveAgainstStreak();
                     }
 
                 } else {
                     countMostUsed();
-                    //jos vihu on käyttänyt yli 65% samaa siirtoa, pelataan tätä vastaan
-                    if (mUshareOfMoves > 60) {
-                        getCounterMove();
-                    } else {
-                        countLeastUsed();
-                        if (lEshareOfMoves < 20) {
-                            getSafestMove();
-                        } else {
-                            getRandom();
-                        }
-                    }
+                    //jos pelaaja on käyttänyt yli 65% samaa siirtoa, pelataan tätä vastaan
+                    getMoveFromAllMovesPlayes();
                 }
             } else {
 
-                //jos on pelattu alle neljä kierrosta, palautetaan siirto painotettuna randomina
+                //jos on pelattu alle kolme kierrosta, palautetaan siirto painotettuna randomina
                 getRandom();
             }
         }
         return move;
+    }
+
+    /**
+     * Metodi hakee parhaan siirron jos pelaaja on käyttänyt jotakin siirtoa yli
+     * 60% ajoista tai turvallisimman siirron jos pelaaja on käyttänyt jotakin
+     * siirtoa alle 20% ajoista. Jos tälläistä siirtoa ei löydy, otetaan random
+     *
+     */
+    public void getMoveFromAllMovesPlayes() {
+        if (mUshareOfMoves > 60) {
+            getCounterMove();
+        } else {
+            countLeastUsed();
+            if (lEshareOfMoves < 20) {
+                getSafestMove();
+            } else {
+                getRandom();
+            }
+        }
+    }
+
+    /**
+     * Metodia laskee kuinka todennäköisesti pelaaja jatkaa samalla siirrolla,
+     * jos todennäköisyys on liian pieni, jatketaan turvallisimmalla siirrolla.
+     * (eli siirrolla jonka todennäköisyys hävitä on pienin
+     */
+    public void getMoveAgainstStreak() {
+        mostUsed = round.getPlayer1Move();
+        double prob = SC.getProbForSameNext(streakCount);
+        if (prob > 55) {
+            getCounterMove();
+        } else {
+            getSafestMove();
+        }
+    }
+
+    /**
+     * Metodia laskee kuinka todennäköisesti pelaaja jatkaa samalla siirrolla.
+     * Jos todennäköisyys ei ole tarpeeksi iso jatketaan randomilla
+     *
+     */
+    public void getStreaklessMove() {
+        if (SC.getAfterTwo() > 50) {
+            getCounterMove();
+        } else {
+            Random random = new Random();
+            int luku = random.nextInt(100);
+            System.out.println(luku);
+            if (luku > 75) {
+                mostUsed = round.getPlayer1Move();
+                getCounterMove();
+            } else {
+                move = round.getPlayer1Move();
+            }
+        }
+    }
+
+    /**
+     * Metodia kutsutaan jos pelaajan "putki" jatkui
+     *
+     */
+    public void streakHappend() {
+        if (!isThereStreak()) {
+            if (streakCount == 4) {
+                SC.increaseFourCount();
+            } else if (streakCount == 3) {
+                SC.increaseTrebleCount();
+            } else if (streakCount == 2) {
+                SC.increaseDoubleCount();
+            }
+        }
     }
 
     /**
@@ -138,7 +173,7 @@ public class AI {
         return true;
     }
 
-     /**
+    /**
      * @return siirtojen "putken" lkm. esim k,k...k,k
      */
     public int countStreak() {
